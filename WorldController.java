@@ -1,3 +1,5 @@
+
+
 import java.awt.Color;
 
 import acm.graphics.*;
@@ -8,8 +10,10 @@ public class WorldController extends GraphicsProgram {
 	
 	private World theWorld;
 	private GCanvas theWorldCanvas;
-	public static final int APPLICATION_WIDTH = 200;
-	public static final int APPLICATION_HEIGHT = 200;
+	public static final int APPLICATION_WIDTH = 300;
+	public static final int APPLICATION_HEIGHT = 300;
+	public LifeForm cow;
+	RandomGenerator rgen = new RandomGenerator ();
 	
 	public void run(){	
 		setUpWorld();
@@ -21,15 +25,19 @@ public class WorldController extends GraphicsProgram {
 	}
 	
 	public void setUpWorld(){
-		theWorld = new World(20,20);
-		theWorld.getCreatureList().add( new Grass( new Location(3,6), theWorld ));
-		theWorld.getCreatureList().add( new Grass( new Location(4,6), theWorld ));
+		theWorld = new World(100,100);
+		for (int i=0; i<100; i ++) {
+			int rand= rgen.nextInt(0, 99);
+			theWorld.getCreatureList().add (new Healthy (new Location (i,rand), theWorld));
+		}
+		theWorld.getCreatureList().add (new InfectedSymptomatic (new Location (1,1), theWorld));
+		theWorld.getCreatureList().add (new Healthy (new Location (2,1), theWorld));
 		theWorldCanvas = this.getGCanvas();
 	}
 	
 	public void runWorld(){
 		drawWorld();
-		for(int i=0; i<3;i++){
+		for(int i=0; i<1;i++){
 			theWorld.letTimePass();
 			pause(500);
 			drawWorld();

@@ -1,10 +1,12 @@
+
+
 import java.util.ArrayList;
 
 public class World {
 	
 	private int width;
 	private int height;
-	private ArrayList<LifeForm> creatureList;
+	public ArrayList<LifeForm> creatureList;
 	
 	public World(int width, int height) {
 		super();
@@ -15,19 +17,32 @@ public class World {
 	
 	public void letTimePass(){
 		
-		makeNewCreatures();
+		//makeNewCreatures();
 		//eatThings();
 		//creaturesGetOlder();
-		//purgeTheDead();		
+		//purgeTheDead();
+		checkInfectionStatus();
+		for(LifeForm l:creatureList) {
+			l.move();
+			if (l instanceof Healthy) {
+			((Healthy) l).infect();
+			}
+	}
+	}
+	
+	public void checkInfectionStatus() {
+		for (int i = 0; i <creatureList.size(); i++) {
+			creatureList.get(i).checkInfection();
+		}
 	}
 	
 	public void makeNewCreatures() {
 		
 		int currentSizeOfCreatureList = creatureList.size();
 		System.out.println("size of list is "+currentSizeOfCreatureList);
-		for(int i=0; i< currentSizeOfCreatureList; i++) {
-			creatureList.get(i).reproduce();
-		}
+		//for(int i=0; i< currentSizeOfCreatureList; i++) {
+		//	creatureList.get(i).reproduce();
+		//}
 	}
 	
 	public void purgeTheDead(){
